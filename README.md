@@ -71,7 +71,6 @@ What is the total amount each customer spent at the restaurant?
   order by most_selling desc
   limit 1
 
-
   
   Which item was the most popular for each customer?
   
