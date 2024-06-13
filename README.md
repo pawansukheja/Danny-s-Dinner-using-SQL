@@ -19,15 +19,6 @@ Technical Skills Applied:
 Looking forward to applying these skills to new challenges and opportunities.
 
 
-select s.customer_id, sum(points_cte.points) as total_points
-from sales as s
-inner join points_cte
-on points_cte.product_id = s.product_id
-group by s.customer_id
-
-
-
-
 CASE STUDY
 
 What is the total amount each customer spent at the restaurant?
