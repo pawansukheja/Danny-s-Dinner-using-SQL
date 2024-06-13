@@ -18,6 +18,17 @@ Technical Skills Applied:
 
 Looking forward to applying these skills to new challenges and opportunities.
 
+
+  What is the total amount each customer spent at the restaurant?
+  select s.customer_id, sum(m.price) as Total_Amount
+  from sales as s
+  join menu as m
+  on s.product_id = m.product_id
+  group by s.customer_id
+
+
+
+
 CASE STUDY
 
 What is the total amount each customer spent at the restaurant?
