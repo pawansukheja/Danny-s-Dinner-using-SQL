@@ -18,19 +18,105 @@ Technical Skills Applied:
 
 Looking forward to applying these skills to new challenges and opportunities.
 
+  
+  What is the total amount each customer spent at the restaurant?
+  select s.customer_id, sum(m.price) as Total_Amount
+  from sales as s
+  join menu as m
+  on s.product_id = m.product_id
+  group by s.customer_id
+  
+  
+  How many days has each customer visited the restaurant?
+  select customer_id, count(distinct order_date) as visit_days
+  from sales
+  group by customer_id
+  
+  
+  What was the first item from the menu purchased by each customer?
+select s.customer_id, s.order_date, m.product_id , m.product_name
+from sales as s
+join menu as m
+on m.product_id = s.product_id
+where (s.customer_id , s.order_date) in (select s.customer_id , min(order_date) from sales
+group by s.customer_id ) 
+order by s.customer_id
 
-Case Study Questions
-Each of the following case study questions can be answered using a single SQL statement:
 
-What is the total amount each customer spent at the restaurant?
-How many days has each customer visited the restaurant?
-What was the first item from the menu purchased by each customer?
 What is the most purchased item on the menu and how many times was it purchased by all customers?
+select m.product_name, count(s.product_id) as most_selling 
+from menu as m
+join sales as s
+on s.product_id = m.product_id
+group by m.product_name
+order by most_selling desc
+limit 1
+
+
 Which item was the most popular for each customer?
+select s.customer_id ,  m.product_name, count(s.product_id) as order_count 
+from sales as s
+join menu as m
+on s.product_id = m.product_id
+group by s.customer_id,s.product_id, m.product_name
+order by order_count desc
+
+
 Which item was purchased first by the customer after they became a member?
+select s.customer_id, m.product_id, m.product_name, s.order_date
+from sales as s
+join menu as m
+on m.product_id = s.product_id
+join members as me
+on s.customer_id = me.customer_id
+where s.order_date >= me.join_date
+and s.order_date = (select min(s2.order_date) from sales as s2
+where s2.customer_id = s.customer_id
+and s2.order_date >= me.join_date)
+
+
+
 Which item was purchased just before the customer became a member?
+select s.customer_id, m.product_id, m.product_name, s.order_date
+from sales as s
+join menu as m
+on m.product_id = s.product_id
+join members as me
+on s.customer_id = me.customer_id
+where s.order_date <= me.join_date
+and s.order_date = (select min(s2.order_date) from sales as s2
+where s2.customer_id = s.customer_id
+and s2.order_date <= me.join_date)
+
+
+
 What is the total items and amount spent for each member before they became a member?
+select s.customer_id, sum(m.price) total_spend, count(s.product_id) as total_quantity
+from sales as s
+join menu as m
+on m.product_id = s.product_id
+join members as me
+on s.customer_id = me.customer_id
+where me.join_date > s.order_date
+group by s.customer_id
+order by customer_id
+
+
+
 If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
+WITH points_cte AS (
+  SELECT m.product_id, 
+    CASE
+      WHEN product_id = 1 THEN price * 20
+      ELSE price * 10 END AS points
+  FROM menu as m)
+
+select s.customer_id, sum(points_cte.points) as total_points
+from sales as s
+inner join points_cte
+on points_cte.product_id = s.product_id
+group by s.customer_id
+
 
 
 ![Dannys Dinner_page-0001](https://github.com/pawansukheja/Danny-s-Dinner-using-SQL/assets/163865690/4ff5f431-c551-4111-ad36-156ee6d08e6c)
