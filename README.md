@@ -134,7 +134,6 @@ What is the total amount each customer spent at the restaurant?
   group by s.customer_id
 
 
-
 ![Dannys Dinner_page-0001](https://github.com/pawansukheja/Danny-s-Dinner-using-SQL/assets/163865690/4ff5f431-c551-4111-ad36-156ee6d08e6c)
 
 ![Dannys Dinner_page-0002](https://github.com/pawansukheja/Danny-s-Dinner-using-SQL/assets/163865690/2cc7fc80-3e68-4278-8ea5-6a4b53fa5447)
